@@ -1,5 +1,7 @@
 <?php
 session_start();
+if(isset($_SESSION['examineeSession']['examineenakalogin']) == true) header("location:home.php");
+
 
 include("conn.php");
 
@@ -34,34 +36,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel = "shortcut icon" href = "login-ui/images/UCS-removebg-preview.png">
-    <title>Registration</title>
+    <link rel="shortcut icon" href="login-ui/images/UCS-removebg-preview.png">
+    <link rel="stylesheet" href="login-ui/css/mainreg.css">
+   
+    <title>Student Registration</title>
 </head>
-<body>
+<body style="background-image: url(login-ui/images/ucs1.jpg	); background-repeat: no-repeat; background-position: center; background-size: cover;">
+<form id="registrationForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    <div class="form">
+        <p class="title"> Student Register</p>
+        <p class="message">Register now to get access</p>
 
-    <h2>Registration Form</h2>
+        <div class="flex">
+        <label>
+            <input type="fullname" name="fullname" required placeholder="" class="input">
+            <span>Full Name</span>
+        </label>
 
-    <form id="registrationForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        <label>
+            <input type="email" name="email" required placeholder="" class="input">
+            <span>Email</span>
+        </label>
+        </div>
 
-        <label>Email</label>
-        <input type="email" name="email" id="email" class="form-control" placeholder="Input Email" autocomplete="off" required="">
-
-        <label for="username">Full Name:</label>
-        <input type="text" name="fullname" id="fullname" required>
-
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
+        <label>
+            <input type="password" name="password" required placeholder="" class="input">
+            <span>Password</span>
+        </label>
 
         <label for="gender">Gender:</label>
-        <select name="gender" required>
+            <select name="gender" required>
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="other">Other</option>
         </select>
 
-        <label for="birthdate">Birthdate:</label>
-        <input type="date" name="bdate" id="bdate" required>
+        <label>
+            <span>Birthdate:</span> 
+        <input type="date" name="bdate" id="bdate" required class="input">
+        
+        </label>
+        
 
+        <div class="flex">
         <label for="course">Strand:</label>
         <select class="form-control" name="course" id="course">
             <option value="0">Select strand</option>
@@ -77,9 +94,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="Grade 12" selected>Grade 12</option>
             <!-- You can add other options if needed -->
         </select>
+        </div>
+        
+        <button type="submit" class="submit">Register</button>
+        <p class="signin">Already have an account? <a href="index.php">Log In</a></p>
+    </div>
 
-        <button type="submit">Register</button>
-    </form>
+</body>
+</html>
+
 
     <!-- Add this script inside the head or at the end of the body -->
 <script>
@@ -108,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (data.res === "success") {
                     alert("Registration successful!");
                     // Redirect to the login page
-                    window.location.href = "index.php"; // Change "login.php" to your actual login page
+                    // window.location.href = "index.php"; // Change "login.php" to your actual login page
                 } else if (data.res === "empty_fields") {
                     alert("Please fill in all fields.");
                 } else if (data.res === "email_exists") {
